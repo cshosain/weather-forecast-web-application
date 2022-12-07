@@ -1,0 +1,492 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    height: 923px;
+    width: 1297px;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    background-color: #4050D2;
+    /* border: 2px solid red; */
+}
+
+.left {
+    width: 387px;
+    background-color: white;
+    border-radius: 45px 0 0 45px;
+}
+
+.right {
+    width: 910px;
+    background-color: #F6F6F8;
+    border-radius: 0 45px 45px 0;
+}
+
+.inside-left {
+    margin: 43px 57px 57px 57px;
+    /* border: 1px solid gray; */
+    height: 70%;
+}
+
+.inside-right {
+    margin: 43px 57px 57px 57px;
+    /* border: 1px solid green; */
+    height: 70%;
+}
+
+.left-upper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.s-icon {
+    margin-right: 9px;
+}
+
+.s-btn-s {
+    display: flex;
+    flex-direction: row;
+}
+
+#searchBtn {
+    background: transparent;
+    border: none;
+}
+
+input[type="text"] {
+    border: none;
+    height: 1.2rem;
+}
+
+::placeholder {
+    /* Most modern browsers support this now. */
+    color: #000;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+#locBtn {
+    border-radius: 50%;
+    border: none;
+    background-color: #F6F6F8;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.fa-solid {
+    font-size: 18px;
+}
+
+.basic-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.big-icon img {
+    width: 216px;
+    margin-top: 52px;
+    margin-bottom: 53px;
+    border-radius: 30%;
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgb(0 0 0) 0%, rgb(253 176 110 / 56%) 0%, rgb(133 0 0 / 0%) 70%);
+}
+
+#test h1 {
+    margin-top: -22px;
+}
+.up{
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 10px;
+}
+#test h1 span:nth-child(2){
+    
+    font-size: 3.5rem;
+}
+
+#mainTemp {
+    font-size: 6rem;
+    font-weight: 400;
+}
+
+#dayTime {
+    margin: 25px 0;
+    font-size: 1.3rem;
+}
+
+hr {
+    margin: 39px 0;
+}
+
+.basic-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 16px 0;
+}
+.icon-a, .icon-b{
+    width: 37px;
+    height: 30px;
+}
+.icon-a img, .icon-b img{
+    width: 30px;
+    height: 30px;
+}
+
+.time {
+    color: gray;
+}
+
+.city img {
+    width: 100%;
+    margin-top: 55px;
+}
+
+/* right parts */
+
+.inside-right {
+    margin: 43px 57px 57px 57px;
+}
+
+.right-upper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* menu section */
+
+nav {
+    position: relative;
+    /* margin: 270px auto 0; */
+    width: 225px;
+    height: 42px;
+    border-radius: 8px;
+    font-size: 0;
+}
+
+nav a {
+    font-size: 15px;
+    font-weight: bold;
+    color: gray;
+    text-decoration: none;
+    line-height: 50px;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    text-align: center;
+}
+
+nav .animation {
+    position: absolute;
+    /* height: 100%; */
+    width: 70%;
+    height: 2px;
+    /* top: 0; */
+    bottom: 0;
+    z-index: 0;
+    background: #070707;
+    border-radius: 8px;
+    transition: all .5s ease 0s;
+}
+
+nav a:nth-child(1) {
+    width: 56px;
+    margin-right: 22px;
+
+}
+
+nav a:nth-child(1):hover {
+    color: #000;
+
+}
+nav a:nth-child(2):hover {
+    color: #000;
+
+}
+
+nav .start-home,
+a:nth-child(1):hover~.animation {
+    width: 56px;
+    left: 0;
+}
+
+nav a:nth-child(2) {
+    width: 56px;
+}
+
+nav a:nth-child(2):hover~.animation {
+    width: 56px;
+    left: 78px;
+}
+
+.right-upper-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 174px;
+}
+
+.btns-right button:nth-child(1){
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+    background-color: #000;
+    color: white;
+    margin-right: 15px;
+
+}
+.btns-right button:nth-child(2){
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+    background-color: #ffff;
+    color: #000;
+}
+.profile{
+    height: 50px;
+    width: 50px;
+}
+.profile img{
+    width: 100%;
+    border-radius: 14px;
+}
+
+.right-midde-1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 62px 0;
+    overflow-x: scroll;
+}
+
+.day{
+    flex: none;
+    height: 135px;
+    width: 108px;
+    background-color: #ffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.day img{
+    width: 80%;
+    display: block;
+    margin: auto;
+}
+.every-day-low{
+    margin-left: 5px;
+    color: gray;
+}
+
+#highlights{
+    font-size: 1.2rem;
+    margin-bottom: 37px;
+}
+
+.right-middle-2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 800px;
+    height: 455px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.highlight{
+    height: 216px;
+    width: 253px;
+    border-radius: 20px;
+    background-color: #ffff;
+}
+.a{
+    margin-top: 21px;
+}
+
+.highlight h5{
+    color: gray;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.highlight h1{
+    font-size: 3rem;
+    margin-top: 27px;
+    font-weight: 500;
+}
+.kmh1{
+    font-size: 1.2rem;
+}
+
+.highlight div{
+    margin: 25px 30px 0 30px;
+}
+.direction{
+    margin-left: 10px;
+}
+.highlight img{
+    width: 100%;
+}
+.inside div{
+    margin: 0;
+}
+.inside div:nth-child(1){
+    height: 30px;
+    width: 30px;
+}
+.inside div:nth-child(2){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inside{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.f{
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.f div:nth-child(1){
+    margin: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f div:nth-child(2){
+    margin: 0;
+    margin-left: 20px;
+}
+.f div:nth-child(1) img{
+    width: 100%;
+}
+.f p{
+    color: gray;
+    font-size: .85rem;
+}
+#percent{
+    font-size: 1.5rem;
+}
+.doFlx{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+/* humidity progress design */
+.h-level{
+    height: 87px;
+    width: 30px;
+    margin: auto;
+    border: 1px solid #EDEDED;
+    border-radius: 21.2px;
+    position: relative;
+}
+.h-marker{
+    border: 9px solid rgb(64, 80, 210);
+    position: absolute;
+    bottom: 10px;
+    left: 6px;
+    border-radius: 50%;
+}
+.inside{
+    margin: 0px 30px 25px 30px;
+}
+/* half circle progressbar */
+#main-p{
+    position: relative;
+}
+#main-p p{
+    width: 204px;
+    height: 94px;
+    margin: 45px auto auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+
+
+}
+#main-p p span{
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 50%;
+    transition: 0.5s;
+
+}
+#b{
+    border: 30px solid;
+    border-color: #FFBF5E #FFBF5E transparent transparent;
+    width: 204px;
+    height: 204px;
+    left: 0;
+    top: 0;
+    transform: rotate(135deg);
+}
+#a{
+    width: 188px;
+    height: 188px;
+    top: 7px;
+    left: 7px;
+    border: 15px solid #F3F3F4;
+}
+#numbering{
+    margin: auto;
+    position: absolute;
+    top: -33px;
+    left: 33px;
+    color: #AFAFAF;
+}
+#numbering h5{
+    margin-top: 1.8rem;
+    margin-left: 127px;
+}
+.pr-69{
+    width: 81px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.pr-69 div{
+    margin-right: 28px;
+}
+p small{
+    font-size: 3rem;
+    position: absolute;
+    bottom: -11px;
+}
