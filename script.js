@@ -26,6 +26,11 @@ let pressureComment = document.getElementById('pressureComment');
 let pressureLevel = document.getElementById('pressureLevel');
 let uvLevel = document.getElementById('b');
 let uvIndex = document.querySelector('small');
+let dailyElem = document.querySelectorAll('.day');
+let hourlyElem = document.querySelectorAll('.hour');
+let scrollContainer = document.querySelector('.right-midde-1');
+let hours = document.querySelectorAll('.hour')
+let underline = document.querySelector('.animation');
 
 let dayArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 let weeklyIconSrc = "";
@@ -35,7 +40,7 @@ function prepareDay(miliSec) {
     return dayArr[dayIndex];
 }
 // function for select icon according to data from API
-function iconSelector(icon){
+function iconSelector(icon) {
     switch (icon) {
         case "clear-day":
             return "sun.ico";
@@ -52,26 +57,26 @@ function iconSelector(icon){
     }
 }
 //function for weekly data show and sortout next 7 day from today
-function showWeeklyData(startDay, infoDays ) {
+function showWeeklyData(startDay, infoDays) {
     let newDayArr = [];
-        for (let i = 0; i < 7; i++) {
-            let indx = i + startDay;
+    for (let i = 0; i < 7; i++) {
+        let indx = i + startDay;
 
-            if (indx < dayArr.length) {
-                newDayArr.push(dayArr[indx])
-            }
-            else {
-                let rem = 7 - i;
-                for (let j = 0; j < rem; j++) {
-                    newDayArr.push(dayArr[j]);
-                }
-                break;
-            }
+        if (indx < dayArr.length) {
+            newDayArr.push(dayArr[indx])
         }
-        // loop for weekly day update
-        for (let i = 0; i < 7; i++) {
-            weeklyIconSrc = iconSelector(infoDays[i].icon);
-            days[i].innerHTML = `<div>
+        else {
+            let rem = 7 - i;
+            for (let j = 0; j < rem; j++) {
+                newDayArr.push(dayArr[j]);
+            }
+            break;
+        }
+    }
+    // loop for weekly day update
+    for (let i = 0; i < 7; i++) {
+        weeklyIconSrc = iconSelector(infoDays[i].icon);
+        days[i].innerHTML = `<div>
             <h5 id="day1">${newDayArr[i]}</h5>
             </div>
             <div>
@@ -81,236 +86,259 @@ function showWeeklyData(startDay, infoDays ) {
             <p> <span class="every-day-high">${infoDays[i].tempmax}°</span> <span class="every-day-low">${infoDays[i].tempmin}°</span></p>
             </div>`;
 
-        }
+    }
 }
-function showUvLevel(value){
-    let x = 135 + (value*(180/15));
+function showUvLevel(value) {
+    let x = 135 + (value * (180 / 15));
     uvLevel.style.transform = `rotate(${x}deg)`;
 }
 
-function commentHumidity(value){
-    
-    if(value < 30){
+function commentHumidity(value) {
+
+    if (value < 30) {
         humidityComment.innerHTML = `Too Dry &#128078`;
     }
-    else if(value >= 30 && value <=50){
+    else if (value >= 30 && value <= 50) {
         humidityComment.innerHTML = `Optimum &#128077`;
     }
-    else{
+    else {
         humidityComment.innerHTML = `Wet &#128078`;
     }
 }
 
-function commentPressure(value){
+function commentPressure(value) {
     value += 990;
-    if(value < 1000){
+    if (value < 1000) {
         console.log(value)
         pressureComment.innerHTML = `Low &#128078`;
     }
-    else if(value > 1020){
+    else if (value > 1020) {
         console.log(value)
         pressureComment.innerHTML = `High &#128078`;
     }
-    else{
+    else {
         console.log(value)
-        pressureComment.innerHTML= `Optimum &#128077`;
+        pressureComment.innerHTML = `Optimum &#128077`;
     }
 }
-function commentVisibility(value){
-    if(value > 0.2 && value <= 0.5){
+function commentVisibility(value) {
+    if (value > 0.2 && value <= 0.5) {
         visibilityComment.innerHTML = 'Moderate Fog &#128577';
     }
-    else if(value > 0.5 && value <= 1){
+    else if (value > 0.5 && value <= 1) {
         visibilityComment.innerHTML = 'Light Fog &#128577';
     }
-    else if(value > 1 && value <= 2){
+    else if (value > 1 && value <= 2) {
         visibilityComment.innerHTML = 'Thin Fog &#128577';
     }
-    else if(value > 2 && value <= 4){
+    else if (value > 2 && value <= 4) {
         visibilityComment.innerHTML = ' Haze &#128577';
     }
-    else if(value > 4 && value <= 10){
+    else if (value > 4 && value <= 10) {
         visibilityComment.innerHTML = 'Light Haze &#128577';
     }
-    else if(value > 10 && value <= 200){
+    else if (value > 10 && value <= 200) {
         visibilityComment.innerHTML = 'Clear &#128577';
     }
-    else if(value > 20 && value <= 50){
+    else if (value > 20 && value <= 50) {
         visibilityComment.innerHTML = 'Very Clear &#128577';
     }
-    else if(value > 50){
+    else if (value > 50) {
         visibilityComment.innerHTML = 'Exceptionally Clear &#128577';
     }
-    else{
+    else {
         visibilityComment.innerHTML = 'Pure Air &#128577';
     }
 }
-function showLevelAsPiller(value, callback){
+function showLevelAsPiller(value, callback) {
     //if block for pressure else block for uv level.
     let x;
-    if(value > 100){
+    if (value > 100) {
         //show pressue at the scale size 40. (990 to 1030)
         value -= 990;
-        x = (40/40.0)*value;
+        x = (40 / 40.0) * value;
         pressureLevel.style.bottom = `${x}px`;
-        pressureLevel.style.border = `9px solid rgb(${64+(value*1.71)}, ${80-(value*0.8)}, ${210-(value*2.21)})`;
+        pressureLevel.style.border = `9px solid rgb(${64 + (value * 1.71)}, ${80 - (value * 0.8)}, ${210 - (value * 2.21)})`;
     }
-    else{
-       x = (67/100.0)*value; 
-       humidityLevel.style.bottom = `${x}px`;
-       humidityLevel.style.border = `9px solid rgb(${64+(value*1.71)}, ${80-(value*0.8)}, ${210-(value*2.21)})`;
+    else {
+        x = (67 / 100.0) * value;
+        humidityLevel.style.bottom = `${x}px`;
+        humidityLevel.style.border = `9px solid rgb(${64 + (value * 1.71)}, ${80 - (value * 0.8)}, ${210 - (value * 2.21)})`;
     }
-    
+
     callback(value);
 }
-function airDirector(deg){
+function airDirector(deg) {
     switch (true) {
-        case (deg==0 || deg==360):{
+        case (deg == 0 || deg == 360): {
             directionImage.src = './images/north.png';
             directionComment.innerText = 'N';
             break;
         }
-            
-        case deg == 45:{
+
+        case deg == 45: {
             directionImage.src = './images/east-north.png';
             directionComment.innerText = 'NE';
             break;
         }
-            
-        case deg == 90:{
+
+        case deg == 90: {
             directionImage.src = './images/east.png';
             directionComment.innerText = 'E';
             break;
         }
-            
-        case deg == 135:{
+
+        case deg == 135: {
             directionImage.src = './images/east-south.png';
             directionComment.innerText = 'SE';
             break;
         }
-            
-        case deg == 180:{
+
+        case deg == 180: {
             directionImage.src = './images/south.png';
             directionComment.innerText = 'S';
             break;
         }
-            
-        case deg == 225:{
+
+        case deg == 225: {
             directionImage.src = './images/west-south.png';
             directionComment.innerText = 'SW';
             break;
         }
-            
-        case deg == 270:{
+
+        case deg == 270: {
             directionImage.src = './images/west.png';
             directionComment.innerText = 'W';
             break;
         }
-            
-        case deg == 315:{
+
+        case deg == 315: {
             directionImage.src = './images/west-north.png';
             directionComment.innerText = 'NW';
             break;
         }
-            
-        case (deg>0 && deg<45):{
+
+        case (deg > 0 && deg < 45): {
             directionImage.src = './images/north.png';
             directionComment.innerText = 'NNE';
             break;
         }
-            
-        case (deg>45 && deg<90):{
+
+        case (deg > 45 && deg < 90): {
             directionImage.src = './images/est.png';
             directionComment.innerText = 'ENE';
             break;
         }
-            
-        case (deg>90 && deg<135):{
-          directionImage.src = './images/est.png';
+
+        case (deg > 90 && deg < 135): {
+            directionImage.src = './images/est.png';
             directionComment.innerText = 'ESE';
-            break;  
+            break;
         }
-            
-        case (deg>135 && deg<180):{
+
+        case (deg > 135 && deg < 180): {
             directionImage.src = './images/south.png';
             directionComment.innerText = 'SSE';
             break;
         }
-            
-        case (deg>180 && deg<225):{
+
+        case (deg > 180 && deg < 225): {
             directionImage.src = './images/south.png';
             directionComment.innerText = 'SSW';
             break;
         }
-            
-        case (deg>225 && deg<270):{
+
+        case (deg > 225 && deg < 270): {
             directionImage.src = './images/west.png';
             directionComment.innerText = 'WSW';
             break;
         }
-            
-        case (deg>270 && deg<315):{
+
+        case (deg > 270 && deg < 315): {
             directionImage.src = './images/west.png';
             directionComment.innerText = 'WNW';
             break;
         }
-            
-        case (deg>315 && deg<360):{
+
+        case (deg > 315 && deg < 360): {
             directionImage.src = './images/north.png';
             directionComment.innerText = 'NNW';
             break;
         }
-            
+
         default:
             break;
     }
 }
-function tConvert (time) {
+function tConvert(time) {
     // Check correct time format and split into components
-    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-  
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
     if (time.length > 1) { // If time format correct
-      time = time.slice (1);  // Remove full string match value
-      time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-      time[0] = +time[0] % 12 || 12; // Adjust hours
+        time = time.slice(1);  // Remove full string match value
+        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
     }
     time[3] = ' ';
-    return time.join (''); // return adjusted time or original string
+    return time.join(''); // return adjusted time or original string
+}
+let prepared
+function hourlyTConv(onlyHour){
+    let prepare = onlyHour + ':' + '00' + ':' +'00';
+    if(onlyHour < 12){
+        if(onlyHour == 0){
+            prepared = '12:00 AM';
+        }
+        else{
+            prepared = onlyHour + ':' + '00' + ':' +'AM';
+        }
+        
+    }
+    else{
+        if(onlyHour == 12){
+            prepared = '12:00 PM';
+        }
+        else{
+            onlyHour -= 12;
+            prepared = onlyHour + ':' + '00' + ':' +'PM';
+        }
+    }
+    return prepared;
 }
 //function for differentiate today and tomorrow sunrise and sunset time
-function diffTime(time1,time2) {
+function diffTime(time1, time2) {
     let hour1 = time1.split(':')[0];
     let hour2 = time2.split(':')[0];
     let min1 = time1.split(':')[1];
     let min2 = time2.split(':')[1];
     let sec1 = time1.split(':')[2];
     let sec2 = time2.split(':')[2];
-  
+
     let diff_hour = hour2 - hour1;
     let diff_min = min2 - min1;
     let diff_sec = sec2 - sec1;
-    if (diff_hour<0) {
-        diff_hour+= 24;
+    if (diff_hour < 0) {
+        diff_hour += 24;
     }
-    if (diff_min<0) {
-        diff_min+=60;
-    } else if(diff_min>=60){
-        diff_min-=60;
+    if (diff_min < 0) {
+        diff_min += 60;
+    } else if (diff_min >= 60) {
+        diff_min -= 60;
         diff_hour++;
     }
-    if (diff_sec<0) {
-        diff_sec+=60;
+    if (diff_sec < 0) {
+        diff_sec += 60;
         diff_min--;
-    } else if(diff_sec>=60){
-        diff_min-=60;
+    } else if (diff_sec >= 60) {
+        diff_min -= 60;
         diff_min++;
     }
-    return([diff_hour, diff_min,diff_sec]) ;
-  
-  }
+    return ([diff_hour, diff_min, diff_sec]);
 
-  
-  
+}
+
+
+
 let api;
 
 inputField.addEventListener("keyup", e => {
@@ -352,6 +380,65 @@ function fetchData() {
         console.log("Something went wrong");
     });
 }
+function showDaily() {
+    hourlyElem.forEach(element => {
+        element.style.display = 'none';
+    });
+    
+    dailyElem.forEach(element => {
+        element.style.display = 'flex';
+    });
+    underline.style.left = '78px';
+    scrollContainer.style.overflowX = 'hidden';
+}
+
+scrollContainer.addEventListener("wheel", (evt) => {
+    evt.preventDefault();
+    scrollContainer.scrollLeft += evt.deltaY;
+});
+
+
+function showHourly() {
+    dailyElem.forEach(element => {
+        element.style.display = 'none';
+    });
+    
+    hourlyElem.forEach(element => {
+        element.style.display = 'flex';
+    });
+    underline.style.left = '0px';
+    scrollContainer.style.overflowX = 'scroll';
+    
+}
+
+function createHourlyInfo(info){
+    for (let i = 0; i < 24; i++) {
+        hours[i].innerHTML = `<div>
+                <h5 class="hourlyTime">${hourlyTConv(i)}</h5>
+            </div>
+            <div>
+                <p class="hourlyTemp">${info.days[0].hours[i].temp}°</p>
+            </div>
+            <div class="smaller">
+                <div>
+                    <div>
+                        <p>Feels like:</p>
+                    </div>
+                    <div>
+                        <p>Humidity:</p>
+                    </div>
+                    <div><p>Visibility:</p></div>
+                </div>
+                <div>
+                    <div><p>${info.days[0].hours[i].feelslike}</p></div>
+                    <div><p>${info.days[0].hours[i].humidity}</p></div>
+                    <div><p>${info.days[0].hours[i].visibility} km</p></div>
+                </div>
+            </div>`;
+
+    }
+
+}
 
 function weatherDetails(info) {
     console.log(info);
@@ -371,8 +458,8 @@ function weatherDetails(info) {
         let uvIndexValue = info.currentConditions.uvindex;
         let visibilityValue = info.currentConditions.visibility;
         let pressureValue = info.currentConditions.pressure;
-        let sunriseValue = tConvert (info.currentConditions.sunrise);
-        let sunsetValue = tConvert (info.currentConditions.sunset);
+        let sunriseValue = tConvert(info.currentConditions.sunrise);
+        let sunsetValue = tConvert(info.currentConditions.sunset);
 
         //putting all data to windwo
         mainTemp.innerText = mainTempValue;
@@ -400,5 +487,8 @@ function weatherDetails(info) {
         diffSunsetTime = diffTime(info.days[0].sunset, info.days[1].sunset);
         sunriseTimeDiffer.innerHTML = `${diffSunriseTime[1]}m ${diffSunriseTime[2]}s`;
         sunsetTimeDiffer.innerHTML = `${diffSunsetTime[1]}m ${diffSunsetTime[2]}s`;
+        scrollContainer.style.overflowX = 'scroll';
+        createHourlyInfo(info);
+        
     }
 }

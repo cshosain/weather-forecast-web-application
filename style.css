@@ -280,8 +280,13 @@ nav a:nth-child(2):hover~.animation {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    min-height: 135px;
+    height: 174px;
     margin: 62px 0;
-    overflow-x: scroll;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    transition: 1s;
 }
 
 .day{
@@ -290,7 +295,8 @@ nav a:nth-child(2):hover~.animation {
     width: 108px;
     background-color: #ffff;
     border-radius: 20px;
-    display: flex;
+    /* display: flex; */
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -490,3 +496,32 @@ p small{
     position: absolute;
     bottom: -11px;
 }
+/* new style */
+.hourlyTime,
+        .hourlyTemp {
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .hourlyTemp {
+            font-size: 1.9rem;
+        }
+
+        .hour {
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            padding: 0 9px;
+            margin: 0 5px;
+            height: 150px;
+            width: 135px;
+            border-radius: 12px;
+            background-color: white;
+        }
+
+        .smaller {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: 14px;
+        }
