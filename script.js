@@ -1,4 +1,5 @@
 let inputField = document.querySelector('input');
+let searchBtn = document.getElementById('searchBtn');
 let locBtn = document.getElementById('locBtn');
 let bigIcon = document.querySelector('.big-icon img');
 let mainTemp = document.getElementById('mainTemp');
@@ -31,13 +32,78 @@ let hourlyElem = document.querySelectorAll('.hour');
 let scrollContainer = document.querySelector('.right-midde-1');
 let hours = document.querySelectorAll('.hour')
 let underline = document.querySelector('.animation');
+let leftBg = document.querySelector('.left');
+let rightBg = document.querySelector('.right');
+let highlights = document.querySelectorAll('.highlight');
+let navA = document.querySelectorAll('nav a');
+let navAunderline = document.querySelector('nav .animation ');
+let iconColor = document.querySelectorAll('.fa-solid');
+let changeModeBtn = document.getElementById('changeModeBtn');
+let celsBtn = document.getElementById('celsBtn');
+let farhBtn = document.getElementById('farhBtn');
+let tempUnit = document.getElementById('tempUnit');
+let public1;
+let public2;
+let untiMode = 'cel';
 
 let dayArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 let weeklyIconSrc = "";
 const d = new Date();
+// I need to show 7 days data from today that's why finding todays day index among 7days of a week as sunday = 0, monday = 1 and so on.
+//here today's name is returning for update left side day name which is performed in weatherDetails function.
 function prepareDay(miliSec) {
     let dayIndex = d.getDay(miliSec);
     return dayArr[dayIndex];
+}
+
+// transformed data updating at the specific place in the DOM
+function updateToFar(){
+    untiMode = 'far';
+    if (public1 && public2){
+        for (let i = 0; i < 7; i++){
+        document.getElementById(`weeklyTmax${i}`).innerHTML = toFahrenheit(public1[i].tempmax)+ '°';
+        document.getElementById(`weeklyTmin${i}`).innerHTML = toFahrenheit(public1[i].tempmin)+ '°';
+    }
+    for (let j = 0; j<24; j++) {
+        document.getElementById(`hourlyTemp${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].temp)+ '°';
+        document.getElementById(`hourlyFeelslike${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].feelslike)+ '°';
+    }
+    mainTemp.innerText = toFahrenheit(public2.currentConditions.temp);
+    tempUnit.innerText = '°F';
+    celsBtn.style.border = 'none';
+    farhBtn.style.border = '2px solid orange';
+    }
+    else{
+        alert('Enter a city name first');
+    }
+}
+
+function updateToCel(){
+    untiMode = 'cel';
+    if (public1 && public2){
+        for (let i = 0; i < 7; i++){
+        document.getElementById(`weeklyTmax${i}`).innerHTML = public1[i].tempmax+ '°';
+        document.getElementById(`weeklyTmin${i}`).innerHTML = public1[i].tempmin+ '°';
+    }
+    for (let j = 0; j<24; j++) {
+        document.getElementById(`hourlyTemp${j}`).innerHTML = public2.days[0].hours[j].temp + '°';
+        document.getElementById(`hourlyFeelslike${j}`).innerHTML = public2.days[0].hours[j].feelslike + '°';
+    }
+    mainTemp.innerText = Math.round(public2.currentConditions.temp);
+    tempUnit.innerText = '°c';
+    farhBtn.style.border = 'none';
+    celsBtn.style.border = '2px solid orange';
+    }
+    else{
+        alert('Enter a city name first');
+    }
+}
+farhBtn.addEventListener('click', updateToFar);
+celsBtn.addEventListener('click', updateToCel);
+changeModeBtn.addEventListener('click', changeMode);
+
+function toFahrenheit(cTemp){
+    return Math.round(cTemp * 9 / 5 + 32);
 }
 // function for select icon according to data from API
 function iconSelector(icon) {
@@ -58,6 +124,7 @@ function iconSelector(icon) {
 }
 //function for weekly data show and sortout next 7 day from today
 function showWeeklyData(startDay, infoDays) {
+    public1 = infoDays;
     let newDayArr = [];
     for (let i = 0; i < 7; i++) {
         let indx = i + startDay;
@@ -83,7 +150,7 @@ function showWeeklyData(startDay, infoDays) {
             <img src="./images/${weeklyIconSrc}" alt="">
             </div>
             <div>
-            <p> <span class="every-day-high">${infoDays[i].tempmax}°</span> <span class="every-day-low">${infoDays[i].tempmin}°</span></p>
+            <p> <span id = "weeklyTmax${i}" class="every-day-high">${infoDays[i].tempmax}°</span> <span id = "weeklyTmin${i}" class="every-day-low">${infoDays[i].tempmin}°</span></p>
             </div>`;
 
     }
@@ -284,7 +351,6 @@ function tConvert(time) {
 }
 let prepared
 function hourlyTConv(onlyHour){
-    let prepare = onlyHour + ':' + '00' + ':' +'00';
     if(onlyHour < 12){
         if(onlyHour == 0){
             prepared = '12:00 AM';
@@ -337,8 +403,6 @@ function diffTime(time1, time2) {
 
 }
 
-
-
 let api;
 
 inputField.addEventListener("keyup", e => {
@@ -348,12 +412,20 @@ inputField.addEventListener("keyup", e => {
     }
 });
 
+function searchBtnApiCalling(){
+    if (inputField.value != "") {
+        requestApi(inputField.value);
+    }
+}
+searchBtn.addEventListener("click",searchBtnApiCalling);
+
 locBtn.addEventListener("click", () => {
     if (navigator.geolocation) { // if browser support geolocation api
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     } else {
         alert("Your browser not support geolocation api");
     }
+    inputField.value = '';
 });
 //normal API url preparing according to input field data
 function requestApi(city) {
@@ -407,17 +479,18 @@ function showHourly() {
         element.style.display = 'flex';
     });
     underline.style.left = '0px';
-    scrollContainer.style.overflowX = 'scroll';
+    // scrollContainer.style.overflowX = 'scroll';
     
 }
 
 function createHourlyInfo(info){
+    public2 = info;
     for (let i = 0; i < 24; i++) {
         hours[i].innerHTML = `<div>
                 <h5 class="hourlyTime">${hourlyTConv(i)}</h5>
             </div>
             <div>
-                <p class="hourlyTemp">${info.days[0].hours[i].temp}°</p>
+                <p id="hourlyTemp${i}" class="hourlyTemp">${info.days[0].hours[i].temp}°</p>
             </div>
             <div class="smaller">
                 <div>
@@ -430,7 +503,7 @@ function createHourlyInfo(info){
                     <div><p>Visibility:</p></div>
                 </div>
                 <div>
-                    <div><p>${info.days[0].hours[i].feelslike}</p></div>
+                    <div><p id="hourlyFeelslike${i}">${info.days[0].hours[i].feelslike}</p></div>
                     <div><p>${info.days[0].hours[i].humidity}</p></div>
                     <div><p>${info.days[0].hours[i].visibility} km</p></div>
                 </div>
@@ -439,6 +512,66 @@ function createHourlyInfo(info){
     }
 
 }
+
+//aplying dynamic color to all element which are array type such as nodelist, html collection
+function applyColorToAll(arr, backColor, Color){
+    arr.forEach(element => {
+        element.style.backgroundColor  = backColor;
+        element.style.color = Color;
+        element.style.transition = '1s';
+    });
+}
+
+//changing color and bg according to the icon is sun or moon class.
+function changeMode(){
+    if(changeModeBtn.firstChild.classList.contains('fa-moon')){
+        // mode = 'night';
+        inputField.style.color = 'wheat';
+        inputField.style.backgroundColor = 'transparent';
+        inputField.classList.add('changedPlaceholderCol');
+        inputField.style.transition = '.7s';
+        leftBg.style.backgroundColor = '#0D1117';
+        leftBg.style.transition = '.7s';
+        leftBg.style.color = 'wheat';
+        rightBg.style.backgroundColor = '#161B22';
+        rightBg.style.color = 'wheat';
+        rightBg.style.transition = '.7s';
+        locBtn.style.backgroundColor = 'black';
+        locBtn.style.transition = '.7s';
+        navAunderline.style.backgroundColor = '#069cdd';
+        navAunderline.style.transition = '.7s';
+        applyColorToAll(hourlyElem, '#1B242E', 'wheat');
+        applyColorToAll(dailyElem, '#1B242E', 'wheat');
+        applyColorToAll(highlights, '#1B242E', 'wheat');
+        applyColorToAll(navA, 'transparent', 'wheat');
+        applyColorToAll(iconColor, 'transparent', 'wheat');
+        iconLeftComment2.style.filter='invert(100%)';
+        iconLeftComment2.style.transition = '.7s';
+        changeModeBtn.firstChild.classList.replace('fa-moon', 'fa-sun');
+        changeModeBtn.style.transition = '.7s';
+    }
+    else{
+        // mode = 'day';
+        inputField.style.color = 'black';
+        inputField.style.backgroundColor = 'transparent';
+        inputField.classList.remove('changedPlaceholderCol');
+        leftBg.style.backgroundColor = 'white';
+        leftBg.style.color = 'black';
+        rightBg.style.backgroundColor = '#F6F6F8';
+        rightBg.style.color = 'black';
+        locBtn.style.backgroundColor = 'white';
+        navAunderline.style.backgroundColor = 'black';
+        applyColorToAll(hourlyElem, 'white', 'black');
+        applyColorToAll(dailyElem, 'white', 'black');
+        applyColorToAll(highlights, 'white', 'black');
+        applyColorToAll(navA, 'transparent', 'gray');
+        applyColorToAll(iconColor, 'transparent', 'black');
+        iconLeftComment2.style.filter='none';
+        changeModeBtn.firstChild.classList.replace('fa-sun', 'fa-moon');
+        changeModeBtn.firstChild.style.color = 'gold';
+    }
+}
+
 
 function weatherDetails(info) {
     console.log(info);
@@ -487,8 +620,12 @@ function weatherDetails(info) {
         diffSunsetTime = diffTime(info.days[0].sunset, info.days[1].sunset);
         sunriseTimeDiffer.innerHTML = `${diffSunriseTime[1]}m ${diffSunriseTime[2]}s`;
         sunsetTimeDiffer.innerHTML = `${diffSunsetTime[1]}m ${diffSunsetTime[2]}s`;
-        scrollContainer.style.overflowX = 'scroll';
         createHourlyInfo(info);
+        //if user has selected Fahrenheit mode already then calling once updateToFar function to stay data Fahrenheit unit in the case of new location request
+        //else window is celcious mode so no required to convertion because data comming from API already cecious unit mode.
+        if (untiMode == 'far'){
+            updateToFar();
+        }
         
     }
 }

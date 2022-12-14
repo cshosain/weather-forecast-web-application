@@ -36,13 +36,13 @@
                     <img src="./images/sun.ico" alt="">
                 </div>
                 <div id="test">
-                    <h1> <span id="mainTemp">12</span> <span class="up">°c</span> </h1>
-                    <h4 id="dayTime">Monday, <span class="time">16 : 00</span></h4>
+                    <h1> <span id="mainTemp">_</span> <span id="tempUnit" class="up">°c</span> </h1>
+                    <h4 id="dayTime"><span class="time"></span></h4>
                 </div>
                 <hr>
                 <div class="basic-info">
                     <div class="icon-a"><img id="iconLeftComment1"src="/images/image-3.png" alt=""> </div>
-                    <div id="leftComment1">Mostly Cloudy</div>
+                    <div id="leftComment1"></div>
                 </div>
                 <div class="basic-info">
                     <div class="icon-b"><img id="iconLeftComment2" src="/images/dewDrop.png" alt="">  </div>
@@ -66,8 +66,9 @@
                     </div>
                     <div class="right-upper-right">
                         <div class="btns-right">
-                            <button>°c</button>
-                            <button>°f</button>
+                            <button id="changeModeBtn"><i class="fa-solid fa-moon"></i></button>
+                            <button id="celsBtn">°c</button>
+                            <button id="farhBtn">°F</button>
                         </div>
                         <div class="profile"><img src="./images/profile.webp" alt=""></div>
                     </div>
@@ -108,7 +109,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high"></span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                     <div class="day">
@@ -130,7 +131,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high"></span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                     <div class="day">
@@ -141,7 +142,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high"></span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                     <div class="day">
@@ -152,7 +153,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high"></span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                     <div class="day">
@@ -163,7 +164,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high"></span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                     <div class="day">
@@ -174,7 +175,7 @@
                             <img src="./images/sun.ico" alt="">
                         </div>
                         <div>
-                            <p> <span class="every-day-high">15'</span> <span class="every-day-low">2'</span></p>
+                            <p> <span class="every-day-high">15'</span> <span class="every-day-low"></span></p>
                         </div>
                     </div>
                 </div>
@@ -197,7 +198,7 @@
                                 <p>
                                     <span id="a"></span>
                                     <span id="b"></span>
-                                    <small>0</small>
+                                    <small></small>
                                 </p>
                             </div>
                         </div>
@@ -205,7 +206,7 @@
                     <div class="highlight">
                         <div>
                             <h5>Wind Status</h5>
-                            <h1> <span id="windSpeed">7.70</span> <span class="kmh1">km/h</span></h1>
+                            <h1> <span id="windSpeed">_</span> <span class="kmh1">km/h</span></h1>
                         </div>
                         <div class="inside">
                             <div><img id="directionImage" src="./images/west-north.png" alt=""></div>
@@ -222,8 +223,8 @@
                                 <img src="./images/image-10.png" alt="">
                             </div>
                             <div>
-                                <h4 id="sunrise">6:35 AM</h4>
-                                <p>-1m 40s</p>
+                                <h4 id="sunrise"></h4>
+                                <p></p>
                             </div>
                         </div>
                         <div class="f">
@@ -231,8 +232,8 @@
                                 <img src="./images/image-9.png" alt="">
                             </div>
                             <div>
-                                <h4 id="sunset">6:35 AM</h4>
-                                <p>-1m 40s</p>
+                                <h4 id="sunset"></h4>
+                                <p></p>
                             </div>
                         </div>
                     </div>
@@ -240,7 +241,7 @@
                         <div class="doFlx">
                             <div style="margin: 0;">
                                 <h5>Humidity</h5>
-                                <h1> <span id="humidity">12</span>  <span class="up" id="percent">%</span></h1>
+                                <h1> <span id="humidity">_</span>  <span class="up" id="percent">%</span></h1>
                             </div>
                             <div style="margin: 0;">
                                 <!-- Humidity level indecator here -->
@@ -251,7 +252,7 @@
                         </div>
                         <div class="inside" style="margin: 0 30px 25px 30px;">
                             <div style="width: 100px;">
-                                <p id="humidityComment">Normal &#128077</p>
+                                <p id="humidityComment"></p>
                             </div>
 
                         </div>
@@ -259,10 +260,10 @@
                     <div class="highlight a">
                         <div>
                             <h5>Visibility</h5>
-                            <h1><span id="visibility">5.2 </span> <span class="kmh1">km/h</span></h1>
+                            <h1><span id="visibility">_</span> <span class="kmh1">km</span></h1>
                         </div>
                         <div class="inside">
-                            <div style="width: 100px;"><span id="visibilityComment" class="direction"> Average &#128577</span></div>
+                            <div style="width: 100px;"><span id="visibilityComment" class="direction"></span></div>
 
                         </div>
                     </div>
@@ -270,7 +271,7 @@
                         <div class="doFlx">
                             <div style="margin: 0;">
                                 <h5><!--Air Quality--> Pressure(mb)</h5>
-                                <h1 id="pressure">1000</h1>
+                                <h1 id="pressure"></h1>
                             </div>
                             <div style="margin: 0;">
                                 <!-- Air quality level indecator here -->
@@ -281,7 +282,7 @@
                         </div>
                         <div class="inside" style="margin: 0 30px 25px 30px;">
                             <div style="width: 100px;">
-                                <p id="pressureComment">Normal &#128078</p>
+                                <p id="pressureComment"></p>
                             </div>
 
                         </div>

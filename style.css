@@ -13,7 +13,6 @@
     display: flex;
     justify-content: space-between;
     margin: auto;
-    background-color: #4050D2;
     /* border: 2px solid red; */
 }
 
@@ -73,6 +72,9 @@ input[type="text"] {
     font-size: 15px;
     font-weight: 500;
 }
+.changedPlaceholderCol::-webkit-input-placeholder {
+    color: wheat;
+ }
 
 input:focus,
 select:focus,
@@ -103,8 +105,7 @@ button:focus {
     margin-top: 52px;
     margin-bottom: 53px;
     border-radius: 30%;
-    background: rgb(0,0,0);
-    background: radial-gradient(circle, rgb(0 0 0) 0%, rgb(253 176 110 / 56%) 0%, rgb(133 0 0 / 0%) 70%);
+    background: radial-gradient(circle, rgb(0 0 0) 0%, rgb(253 176 110 / 38%) 0%, rgb(133 0 0 / 0%) 58%);
 }
 
 #test h1 {
@@ -191,6 +192,7 @@ nav a {
     z-index: 1;
     display: inline-block;
     text-align: center;
+    cursor: pointer;
 }
 
 nav .animation {
@@ -241,9 +243,11 @@ nav a:nth-child(2):hover~.animation {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 174px;
+    width: 227px;
 }
-
+button{
+    cursor: pointer;
+}
 .btns-right button:nth-child(1){
     height: 36px;
     width: 36px;
@@ -251,12 +255,24 @@ nav a:nth-child(2):hover~.animation {
     border: none;
     font-size: 1.2rem;
     text-align: center;
+    background-color: rgb(62 62 62);
+    color: gold;
+    margin-right: 15px;
+}
+
+.btns-right button:nth-child(2){
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    border: 2px solid orange;
+    font-size: 1.2rem;
+    text-align: center;
     background-color: #000;
     color: white;
     margin-right: 15px;
 
 }
-.btns-right button:nth-child(2){
+.btns-right button:nth-child(3){
     height: 36px;
     width: 36px;
     border-radius: 50%;
@@ -286,7 +302,6 @@ nav a:nth-child(2):hover~.animation {
     scroll-behavior: smooth;
     overflow-x: hidden;
     overflow-y: hidden;
-    transition: 1s;
 }
 
 .day{
@@ -354,6 +369,7 @@ nav a:nth-child(2):hover~.animation {
 
 .highlight div{
     margin: 25px 30px 0 30px;
+    transition: 1s cubic-bezier(0, 0, 0.29, 1.04);
 }
 .direction{
     margin-left: 10px;
