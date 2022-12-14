@@ -42,6 +42,8 @@ let changeModeBtn = document.getElementById('changeModeBtn');
 let celsBtn = document.getElementById('celsBtn');
 let farhBtn = document.getElementById('farhBtn');
 let tempUnit = document.getElementById('tempUnit');
+let cityNameDisplay = document.getElementById('cityNameDisplay');
+let displayText = document.getElementById('displayText');
 let public1;
 let public2;
 let untiMode = 'cel';
@@ -57,44 +59,44 @@ function prepareDay(miliSec) {
 }
 
 // transformed data updating at the specific place in the DOM
-function updateToFar(){
+function updateToFar() {
     untiMode = 'far';
-    if (public1 && public2){
-        for (let i = 0; i < 7; i++){
-        document.getElementById(`weeklyTmax${i}`).innerHTML = toFahrenheit(public1[i].tempmax)+ '°';
-        document.getElementById(`weeklyTmin${i}`).innerHTML = toFahrenheit(public1[i].tempmin)+ '°';
+    if (public1 && public2) {
+        for (let i = 0; i < 7; i++) {
+            document.getElementById(`weeklyTmax${i}`).innerHTML = toFahrenheit(public1[i].tempmax) + '°';
+            document.getElementById(`weeklyTmin${i}`).innerHTML = toFahrenheit(public1[i].tempmin) + '°';
+        }
+        for (let j = 0; j < 24; j++) {
+            document.getElementById(`hourlyTemp${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].temp) + '°';
+            document.getElementById(`hourlyFeelslike${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].feelslike) + '°';
+        }
+        mainTemp.innerText = toFahrenheit(public2.currentConditions.temp);
+        tempUnit.innerText = '°F';
+        celsBtn.style.border = 'none';
+        farhBtn.style.border = '2px solid orange';
     }
-    for (let j = 0; j<24; j++) {
-        document.getElementById(`hourlyTemp${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].temp)+ '°';
-        document.getElementById(`hourlyFeelslike${j}`).innerHTML = toFahrenheit(public2.days[0].hours[j].feelslike)+ '°';
-    }
-    mainTemp.innerText = toFahrenheit(public2.currentConditions.temp);
-    tempUnit.innerText = '°F';
-    celsBtn.style.border = 'none';
-    farhBtn.style.border = '2px solid orange';
-    }
-    else{
+    else {
         alert('Enter a city name first');
     }
 }
 
-function updateToCel(){
+function updateToCel() {
     untiMode = 'cel';
-    if (public1 && public2){
-        for (let i = 0; i < 7; i++){
-        document.getElementById(`weeklyTmax${i}`).innerHTML = public1[i].tempmax+ '°';
-        document.getElementById(`weeklyTmin${i}`).innerHTML = public1[i].tempmin+ '°';
+    if (public1 && public2) {
+        for (let i = 0; i < 7; i++) {
+            document.getElementById(`weeklyTmax${i}`).innerHTML = public1[i].tempmax + '°';
+            document.getElementById(`weeklyTmin${i}`).innerHTML = public1[i].tempmin + '°';
+        }
+        for (let j = 0; j < 24; j++) {
+            document.getElementById(`hourlyTemp${j}`).innerHTML = public2.days[0].hours[j].temp + '°';
+            document.getElementById(`hourlyFeelslike${j}`).innerHTML = public2.days[0].hours[j].feelslike + '°';
+        }
+        mainTemp.innerText = Math.round(public2.currentConditions.temp);
+        tempUnit.innerText = '°c';
+        farhBtn.style.border = 'none';
+        celsBtn.style.border = '2px solid orange';
     }
-    for (let j = 0; j<24; j++) {
-        document.getElementById(`hourlyTemp${j}`).innerHTML = public2.days[0].hours[j].temp + '°';
-        document.getElementById(`hourlyFeelslike${j}`).innerHTML = public2.days[0].hours[j].feelslike + '°';
-    }
-    mainTemp.innerText = Math.round(public2.currentConditions.temp);
-    tempUnit.innerText = '°c';
-    farhBtn.style.border = 'none';
-    celsBtn.style.border = '2px solid orange';
-    }
-    else{
+    else {
         alert('Enter a city name first');
     }
 }
@@ -102,7 +104,7 @@ farhBtn.addEventListener('click', updateToFar);
 celsBtn.addEventListener('click', updateToCel);
 changeModeBtn.addEventListener('click', changeMode);
 
-function toFahrenheit(cTemp){
+function toFahrenheit(cTemp) {
     return Math.round(cTemp * 9 / 5 + 32);
 }
 // function for select icon according to data from API
@@ -292,13 +294,13 @@ function airDirector(deg) {
         }
 
         case (deg > 45 && deg < 90): {
-            directionImage.src = './images/est.png';
+            directionImage.src = './images/east.png';
             directionComment.innerText = 'ENE';
             break;
         }
 
         case (deg > 90 && deg < 135): {
-            directionImage.src = './images/est.png';
+            directionImage.src = './images/east.png';
             directionComment.innerText = 'ESE';
             break;
         }
@@ -350,23 +352,23 @@ function tConvert(time) {
     return time.join(''); // return adjusted time or original string
 }
 let prepared
-function hourlyTConv(onlyHour){
-    if(onlyHour < 12){
-        if(onlyHour == 0){
+function hourlyTConv(onlyHour) {
+    if (onlyHour < 12) {
+        if (onlyHour == 0) {
             prepared = '12:00 AM';
         }
-        else{
-            prepared = onlyHour + ':' + '00' + ':' +'AM';
+        else {
+            prepared = onlyHour + ':' + '00' + ':' + 'AM';
         }
-        
+
     }
-    else{
-        if(onlyHour == 12){
+    else {
+        if (onlyHour == 12) {
             prepared = '12:00 PM';
         }
-        else{
+        else {
             onlyHour -= 12;
-            prepared = onlyHour + ':' + '00' + ':' +'PM';
+            prepared = onlyHour + ':' + '00' + ':' + 'PM';
         }
     }
     return prepared;
@@ -412,19 +414,37 @@ inputField.addEventListener("keyup", e => {
     }
 });
 
-function searchBtnApiCalling(){
+function searchBtnApiCalling() {
     if (inputField.value != "") {
         requestApi(inputField.value);
     }
 }
-searchBtn.addEventListener("click",searchBtnApiCalling);
+searchBtn.addEventListener("click", searchBtnApiCalling);
 
-locBtn.addEventListener("click", () => {
+function doBlur(status) {
+    if (status == 'yes') {
+        leftBg.style.filter = 'blur(8px)';
+        rightBg.style.filter = 'blur(8px)';
+        displayText.style.display = 'block';
+        displayText.style.zIndex = '2';
+
+    }
+    else {
+        leftBg.style.filter = 'none';
+        rightBg.style.filter = 'none';
+        displayText.style.display = 'none';
+    }
+}
+function getCurrentLocation() {
     if (navigator.geolocation) { // if browser support geolocation api
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     } else {
         alert("Your browser not support geolocation api");
     }
+}
+getCurrentLocation();
+locBtn.addEventListener("click", () => {
+    getCurrentLocation();
     inputField.value = '';
 });
 //normal API url preparing according to input field data
@@ -432,9 +452,23 @@ function requestApi(city) {
     api = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=4MGQZETDBJB3PQFJ833EUNJJC&contentType=json`;
     fetchData();
 }
+var latAndLong;
+let yourLoc;
 //geo location success state API url pretaring
 function onSuccess(position) {
-    const { latitude, longitude } = position.coords; // getting lat and lon of the user device from coords obj
+    let { latitude, longitude } = position.coords; // getting lat and lon of the user device from coords obj
+    latAndLong = latitude + ',' + longitude;
+    //making asyncronous while preparing public2 which is main info from API. If lat gets location as lat and long then display 'your location'
+    setTimeout(() => {
+        if (public2.address == latAndLong) {
+            yourLoc = 'Your Location';
+        }
+        else {
+            yourLoc = public2.address;
+        }
+        cityNameDisplay.innerHTML = `<h2>${yourLoc}</h2>`;
+    }, 2000);
+
     api = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}?unitGroup=metric&key=4MGQZETDBJB3PQFJ833EUNJJC&contentType=json`;
     fetchData();
 }
@@ -446,17 +480,18 @@ function onError(error) {
 
 function fetchData() {
     console.log("Getting weather details...");
+    doBlur('yes');
     // getting api response and returning it with parsing into js obj and in another 
     // then function calling weatherDetails function with passing api result as an argument
     fetch(api).then(res => res.json()).then(result => weatherDetails(result)).catch(() => {
-        console.log("Something went wrong");
+        alert("Something went wrong");
     });
 }
 function showDaily() {
     hourlyElem.forEach(element => {
         element.style.display = 'none';
     });
-    
+
     dailyElem.forEach(element => {
         element.style.display = 'flex';
     });
@@ -474,16 +509,16 @@ function showHourly() {
     dailyElem.forEach(element => {
         element.style.display = 'none';
     });
-    
+
     hourlyElem.forEach(element => {
         element.style.display = 'flex';
     });
     underline.style.left = '0px';
     // scrollContainer.style.overflowX = 'scroll';
-    
+
 }
 
-function createHourlyInfo(info){
+function createHourlyInfo(info) {
     public2 = info;
     for (let i = 0; i < 24; i++) {
         hours[i].innerHTML = `<div>
@@ -514,17 +549,17 @@ function createHourlyInfo(info){
 }
 
 //aplying dynamic color to all element which are array type such as nodelist, html collection
-function applyColorToAll(arr, backColor, Color){
+function applyColorToAll(arr, backColor, Color) {
     arr.forEach(element => {
-        element.style.backgroundColor  = backColor;
+        element.style.backgroundColor = backColor;
         element.style.color = Color;
         element.style.transition = '1s';
     });
 }
 
 //changing color and bg according to the icon is sun or moon class.
-function changeMode(){
-    if(changeModeBtn.firstChild.classList.contains('fa-moon')){
+function changeMode() {
+    if (changeModeBtn.firstChild.classList.contains('fa-moon')) {
         // mode = 'night';
         inputField.style.color = 'wheat';
         inputField.style.backgroundColor = 'transparent';
@@ -545,12 +580,12 @@ function changeMode(){
         applyColorToAll(highlights, '#1B242E', 'wheat');
         applyColorToAll(navA, 'transparent', 'wheat');
         applyColorToAll(iconColor, 'transparent', 'wheat');
-        iconLeftComment2.style.filter='invert(100%)';
+        iconLeftComment2.style.filter = 'invert(100%)';
         iconLeftComment2.style.transition = '.7s';
         changeModeBtn.firstChild.classList.replace('fa-moon', 'fa-sun');
         changeModeBtn.style.transition = '.7s';
     }
-    else{
+    else {
         // mode = 'day';
         inputField.style.color = 'black';
         inputField.style.backgroundColor = 'transparent';
@@ -566,7 +601,7 @@ function changeMode(){
         applyColorToAll(highlights, 'white', 'black');
         applyColorToAll(navA, 'transparent', 'gray');
         applyColorToAll(iconColor, 'transparent', 'black');
-        iconLeftComment2.style.filter='none';
+        iconLeftComment2.style.filter = 'none';
         changeModeBtn.firstChild.classList.replace('fa-sun', 'fa-moon');
         changeModeBtn.firstChild.style.color = 'gold';
     }
@@ -595,6 +630,7 @@ function weatherDetails(info) {
         let sunsetValue = tConvert(info.currentConditions.sunset);
 
         //putting all data to windwo
+        doBlur('no');
         mainTemp.innerText = mainTempValue;
         dayTime.innerHTML = `${dayTimeDayValue}, <span class="time">${dayTimeTimeValue}</span>`;
         leftComment1.innerText = valueLeftComment1;
@@ -621,11 +657,14 @@ function weatherDetails(info) {
         sunriseTimeDiffer.innerHTML = `${diffSunriseTime[1]}m ${diffSunriseTime[2]}s`;
         sunsetTimeDiffer.innerHTML = `${diffSunsetTime[1]}m ${diffSunsetTime[2]}s`;
         createHourlyInfo(info);
+
+        // console.log(latitude);
+        cityNameDisplay.innerHTML = `<h2>${inputField.value.toUpperCase()}</h2>`;
         //if user has selected Fahrenheit mode already then calling once updateToFar function to stay data Fahrenheit unit in the case of new location request
         //else window is celcious mode so no required to convertion because data comming from API already cecious unit mode.
-        if (untiMode == 'far'){
+        if (untiMode == 'far') {
             updateToFar();
         }
-        
+
     }
 }

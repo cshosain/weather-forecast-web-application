@@ -155,8 +155,13 @@ hr {
 }
 
 .city img {
+    height: 116px;
+    border-radius: 20px;
     width: 100%;
     margin-top: 55px;
+}
+.city{
+    position: relative;
 }
 
 /* right parts */
@@ -541,3 +546,70 @@ p small{
             justify-content: space-between;
             font-size: 14px;
         }
+        #cityNameDisplay{
+            color: white;
+            position: absolute;
+            width: 272px;
+            top: 91px;
+        }
+        #cityNameDisplay h2{
+            margin: auto;
+            text-align: center;
+        }
+        #displayText{
+            color: orangered;
+            position: absolute;
+            display: none;
+            top: 100px;
+            left: 730px;
+        }
+        #displayText h1{
+            z-index: 2;
+            font-size: 4rem;
+            text-align: center;
+        }
+
+        /* responsive */
+
+        /* For Desktop View */
+@media screen and (min-width: 1024px) {
+    
+  }
+   
+  /* For Tablet View */
+  @media screen and (min-device-width: 768px)
+  and (max-device-width: 1024px) {
+    
+  }
+   
+  /* For Mobile Portrait View */
+  @media screen and (max-device-width: 480px)
+  and (orientation: portrait) {
+    #bigIconMainTemp{
+        display: flex;
+    }
+    #test{
+        display: flex;
+    align-items: center;
+    }
+    #test h1 {
+        margin-top: 0px;
+    }
+    .big-icon img {
+        width: 128px;
+    }
+    #mainTemp {
+        font-size: 4rem;
+    }
+  }
+   
+  /* For Mobile Landscape View */
+  @media screen and (max-device-width: 640px)
+  and (orientation: landscape) {
+    
+  }
+   
+  /* For Mobile Phones Portrait or Landscape View */
+  @media screen and (max-device-width: 640px) {
+    
+  }
