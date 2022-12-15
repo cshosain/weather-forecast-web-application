@@ -57,6 +57,11 @@ function prepareDay(miliSec) {
     let dayIndex = d.getDay(miliSec);
     return dayArr[dayIndex];
 }
+let isDay = false;
+function sayDayOrNight(timeAs24) {
+    let hours = parseInt(timeAs24.slice(0, 2));
+    isDay = hours > 6 && hours < 20;
+}
 
 // transformed data updating at the specific place in the DOM
 function updateToFar() {
@@ -108,21 +113,42 @@ function toFahrenheit(cTemp) {
     return Math.round(cTemp * 9 / 5 + 32);
 }
 // function for select icon according to data from API
+
 function iconSelector(icon) {
-    switch (icon) {
-        case "clear-day":
-            return "sun.ico";
-        case "partly-cloudy-day":
-            return "image-6.png";
-        case "rain":
-            return "image-4.png";
-        case "cloudy":
-            return "image-3.png";
-        case "snow":
-            return "image-5.png";
-        default:
-            return "sun.ico";
+    if (isDay) {
+        // here all day icon src will be set
+        switch (icon) {
+            case "clear-day":
+                return "day.svg";
+            case "partly-cloudy-day":
+                return "cloudy-day-1.svg";
+            case "rain":
+                return "rainy-6.svg";
+            case "cloudy":
+                return "cloudy.svg";
+            case "snow":
+                return "snowy-3.svg";
+            default:
+                return "weather.svg";
+        }
     }
+    else{
+        switch (icon) {
+            case "clear-day":
+                return "night.svg";
+            case "partly-cloudy-day":
+                return "cloudy-night-2.svg";
+            case "rain":
+                return "rainy-6.svg";
+            case "cloudy":
+                return "cloudy.svg";
+            case "snow":
+                return "snowy-6.svg";
+            default:
+                return "weather.svg";
+        }
+    }
+
 }
 //function for weekly data show and sortout next 7 day from today
 function showWeeklyData(startDay, infoDays) {
@@ -186,7 +212,6 @@ function commentPressure(value) {
         pressureComment.innerHTML = `High &#128078`;
     }
     else {
-        console.log(value)
         pressureComment.innerHTML = `Optimum &#128077`;
     }
 }
@@ -404,6 +429,24 @@ function diffTime(time1, time2) {
     return ([diff_hour, diff_min, diff_sec]);
 
 }
+function delay(callback, ms) {
+    var timer = 0;
+    return function() {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        callback.apply(context, args);
+      }, ms || 0);
+    };
+  }
+
+  inputField.addEventListener("keyup", delay(function (e) {
+    console.log('Time elapsed!', this.value);
+    if(this.value.length > 1){
+       requestApi(this.value); 
+    }
+    
+  }, 700));
 
 let api;
 
@@ -467,7 +510,7 @@ function onSuccess(position) {
             yourLoc = public2.address;
         }
         cityNameDisplay.innerHTML = `<h2>${yourLoc}</h2>`;
-    }, 2000);
+    }, 3000);
 
     api = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}?unitGroup=metric&key=4MGQZETDBJB3PQFJ833EUNJJC&contentType=json`;
     fetchData();
@@ -483,8 +526,12 @@ function fetchData() {
     doBlur('yes');
     // getting api response and returning it with parsing into js obj and in another 
     // then function calling weatherDetails function with passing api result as an argument
-    fetch(api).then(res => res.json()).then(result => weatherDetails(result)).catch(() => {
-        alert("Something went wrong");
+    fetch(api).then(res => res.json()).then(result => weatherDetails(result)).catch( ()=> {
+        if (confirm("Invalid city name!")) {
+            doBlur('no');
+          } else {
+            doBlur('no');
+          }
     });
 }
 function showDaily() {
@@ -657,6 +704,7 @@ function weatherDetails(info) {
         sunriseTimeDiffer.innerHTML = `${diffSunriseTime[1]}m ${diffSunriseTime[2]}s`;
         sunsetTimeDiffer.innerHTML = `${diffSunsetTime[1]}m ${diffSunsetTime[2]}s`;
         createHourlyInfo(info);
+        sayDayOrNight(info.currentConditions.datetime);
 
         // console.log(latitude);
         cityNameDisplay.innerHTML = `<h2>${inputField.value.toUpperCase()}</h2>`;
@@ -665,6 +713,7 @@ function weatherDetails(info) {
         if (untiMode == 'far') {
             updateToFar();
         }
+        inputField.value = '';
 
     }
 }

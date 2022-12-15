@@ -324,7 +324,7 @@ button{
 }
 
 .day img{
-    width: 80%;
+    width: 100%;
     display: block;
     margin: auto;
 }
@@ -560,8 +560,8 @@ p small{
             color: orangered;
             position: absolute;
             display: none;
-            top: 100px;
-            left: 730px;
+            top: 300px;
+            margin-left: 28rem;
         }
         #displayText h1{
             z-index: 2;
