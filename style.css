@@ -561,13 +561,9 @@ p small{
             position: absolute;
             display: none;
             top: 300px;
-            margin-left: 28rem;
+            left: 50%;
         }
-        #displayText h1{
-            z-index: 2;
-            font-size: 4rem;
-            text-align: center;
-        }
+        
 
         /* responsive */
 

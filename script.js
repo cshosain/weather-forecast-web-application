@@ -429,6 +429,7 @@ function diffTime(time1, time2) {
     return ([diff_hour, diff_min, diff_sec]);
 
 }
+//this is auto enter function after 700ms delay
 function delay(callback, ms) {
     var timer = 0;
     return function() {
@@ -439,7 +440,7 @@ function delay(callback, ms) {
       }, ms || 0);
     };
   }
-
+//auto enter function calling in the input-field keyup event
   inputField.addEventListener("keyup", delay(function (e) {
     console.log('Time elapsed!', this.value);
     if(this.value.length > 1){
@@ -663,7 +664,7 @@ function weatherDetails(info) {
         let humidityValue = Math.floor(info.currentConditions.humidity);
         let windSpeedValue = info.currentConditions.windspeed;
         let windDirectionValue = info.currentConditions.winddir;
-        let mainTempValue = Math.floor(info.currentConditions.temp);
+        let mainTempValue = Math.round(info.currentConditions.temp);
         let valueLeftComment1 = info.currentConditions.conditions;
         let valueLeftComment2 = info.currentConditions.dew;
         let dayTimeTimeValue = tConvert(info.currentConditions.datetime);
